@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+	<property name="LOG_HOME" value="/app/frank/sink/logs" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="SINK"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/sink.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/sink.%i.log.zip
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>20</maxIndex>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>500MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<logger name="org.springframework" level="INFO" additivity="false">
+		<appender-ref ref="SINK" />
+	</logger>
+	<logger name="org.springframework.boot" level="INFO" additivity="false">
+		<appender-ref ref="SINK" />
+	</logger>
+	<logger name="org.mybatis" level="INFO" additivity="false">
+		<appender-ref ref="SINK" />
+	</logger>
+	<logger name="com.alibaba" level="INFO" additivity="false">
+		<appender-ref ref="SINK" />
+	</logger>
+	<logger name="org.apache" level="INFO" additivity="false">
+		<appender-ref ref="SINK" />
+	</logger>
+
+
+	<root level="INFO">
+		<appender-ref ref="SINK" />
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+</configuration>

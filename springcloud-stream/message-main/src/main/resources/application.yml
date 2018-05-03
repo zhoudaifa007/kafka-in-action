@@ -1,0 +1,30 @@
+server:
+    port: 8090
+spring:
+    cloud:
+         instance-count: 1
+         instance-index: 0
+         stream:
+            kafka:
+              binder:
+                brokers: 10.10.10.10:9092
+                zk-nodes: 10.10.10.10:2181
+                auto-add-partitions: true
+                auto-create-topics: false
+                min-partition-count: 1
+            bindings:
+              input_topic:
+                destination: maintopic
+                content-type: application/json
+                consumer:
+                  autoCommitOffset: false
+                  concurrency: 1
+                  partitioned: false
+              output_topic:
+                destination: maintopic
+                content-type: application/json
+                producer:
+                  partitionCount: 1
+
+logging:
+  config: F:/work/message-sink/message-main/src/main/resources/logback.xml
